@@ -1,6 +1,6 @@
 # Bresser Weather Center
 
-This library allows to decode the radio signal sent by the Bresser Weather Center 5-IN-1 sensors.
+This library allows to decode the radio data sent by the Bresser Weather Center 5-IN-1 sensors (model 7002510).
 http://www.bresser.de/en/Weather-Time/BRESSER-Weather-Center-5-in-1.html
 
 I tested it only with a RTL2838 dongle, using the rtl-sdr software (http://www.rtl-sdr.com/).
