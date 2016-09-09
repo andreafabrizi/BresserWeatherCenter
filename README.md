@@ -7,7 +7,7 @@ I tested it only with a RTL2838 dongle, using the rtl-sdr software (http://www.r
 
 Note that I've not fully reversed yet the data packed sent by the sensor, the work is still ongoing and the library still need to be tested a lot.
 
-## Packet structure
+## Reversing and packet structure
 The sensor transmit the packet on the 868.300M frequency with AM modulation.
 
 Following a capture of the wave already demodulated, very close to the transmitter, usually in fact the wave crests are less marked:
@@ -17,7 +17,7 @@ Following a capture of the wave already demodulated, very close to the transmitt
 The packet is 255 bits long, the bits are ecoded with 1 for high and 0 for low and the sensors readings in BCD.
 With the sampling rate set to 48Khz we have an average of 6 samples per bit.
 
-## Example
+## Usage example
 ```
 from bresser import *
 
