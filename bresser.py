@@ -56,7 +56,7 @@ class packet():
         self.rain_month = 0.0
         self.debug = debug
 
-    #Convert the bit stram encoded in BCD to digits
+    #Convert the bit stream encoded in BCD to digits
     def bcd2Digit(self, buff):
         res = ""
         digits = [buff[i:i+4] for i in range(0, len(buff), 4)]
@@ -174,7 +174,7 @@ class packet():
     def printReadings(self):
         print time.strftime("%Y-%m-%d %H:%M:%S: "),
         print "Humidity: %d%% " % self.humidity,
-        print "Temperature: %.1f" % self.temperature + u"\u00b0 ",
+        print "Temperature: %.1f" % self.temperature + u"\u00b0C ",
         print "Wind: %.1f Km/h " % self.getWindSpeedKm(),
         print "Rain: %.1f mm" % self.getRain(),
         print ""
@@ -269,7 +269,6 @@ class Bresser():
 
         #Reducing the samples
         for sample in samples:
-
             if sample == prev_sample:
                 count_prev_samples += 1
                 continue
@@ -286,7 +285,7 @@ class Bresser():
 
         self.process_packet(buffer)
 
-    #Deetecting sequences of data separated by silence
+    #Detecting sequences of data separated by silence
     def process_radio_data(self):
 
         samples = list()
