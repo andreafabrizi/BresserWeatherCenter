@@ -32,3 +32,7 @@ rtl_fm -M am -f 868.300M -s 48k -g 50 -l 15  | ./test.py
 2016-09-09 19:59:17:  Humidity: 50%  Temperature: 20.7°  Wind: 2.2 Km/h  Rain: 4.0 mm
 2016-09-09 19:59:30:  Humidity: 49%  Temperature: 20.6°  Wind: 2.2 Km/h  Rain: 4.0 mm
 ```
+
+## To do
+* Decode wind direction data
+* Find the checksum, if there's one
