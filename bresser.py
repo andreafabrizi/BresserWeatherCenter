@@ -241,7 +241,7 @@ class Bresser():
                 self.callback_func(p)
 
         elif self.debug:
-            print "Invalid packed received: %d" % p.parse()
+            print "Invalid packed received"
 
     def get_sample_stdin(self):
         short = sys.stdin.read(2)
@@ -274,7 +274,7 @@ class Bresser():
                 continue
 
             #6 is the rate for a 48Khz sampling
-            rate = round(float(count_prev_samples) / 6)
+            rate = math.ceil(float(count_prev_samples) / 6)
             buffer+=str(prev_sample) * int(rate)
 
             prev_sample = sample
