@@ -35,4 +35,6 @@ rtl_fm -M am -f 868.300M -s 48k -g 50 -l 15  | ./test.py
 
 ## To do
 * Decode wind direction data
-* Find the checksum, if there's one
+* Identify the checksum, if there's one
+* Identify the device ID
+* Identify the sync
