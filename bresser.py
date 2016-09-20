@@ -1,7 +1,7 @@
 #!/usr/bin/python
 #
 # Radio signal decoder
-# for BRESSER WEATHER CENTER 5-IN-1 
+# for BRESSER WEATHER CENTER 5-IN-1
 #
 # Copyright (C) 2016 Andrea Fabrizi <andrea.fabrizi@gmail.com>
 #
@@ -84,9 +84,6 @@ class packet():
             print "%d -> %s" % (len(self.buffer), self.buffer)
 
         try:
-
-            if len(self.buffer) != 255:
-                return 5
 
             #Preamble
             data = self.getBits(40)
@@ -260,8 +257,10 @@ class Bresser():
         #Normalising the samples
         for index, sample in enumerate(samples):
             if samples[index] >= average:
+                #print "%d -> 1" % samples[index]
                 samples[index] = 1
             else:
+                #print "%d -> 0" % samples[index]
                 samples[index] = 0
 
         prev_sample = 0
@@ -316,4 +315,3 @@ class Bresser():
 
             self.process_signal(samples)
             samples = []
-
