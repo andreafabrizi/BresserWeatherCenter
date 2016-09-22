@@ -35,6 +35,9 @@ rtl_fm -M am -f 868.300M -s 48k -g 49.6 -l 30  | ./test.py
 
 Note that the gain and the squelch level most probably needs to be adjusted, depending on your device and antenna.
 
+## Antenna
+As antenna I used a self made metal wire 8.64 cm long (300000/868000/4) and it works quite well.
+
 ## To do
 * Decode wind direction data
 * Identify the checksum, if there's one
