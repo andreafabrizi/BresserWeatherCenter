@@ -70,7 +70,6 @@ class packet():
         #Not sure if it's the sync or the ID of my station
         sync = self.stream[10:14]
         if sync != "\x02\x0D\x0D\x04":
-            print "err"
             return 3
 
         #Wind
@@ -240,7 +239,7 @@ class Bresser():
         buffer = buffer.strip("0")
 
         #If the buffer size is < 256 and > 252, probably the original packet
-        #ends with 0s, so let's compensate
+        #ends with 0s which has been stripped, so let's compensate
         if len(buffer) > 252 and len(buffer) < 256:
             buffer += "0" * (256 - len(buffer))
 
