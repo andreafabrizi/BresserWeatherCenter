@@ -1,8 +1,8 @@
 # Bresser Weather Center
 
-The BRESSER weather center 5-in-1 (model 7002510, http://www.bresser.de/en/Weather-Time/BRESSER-Weather-Center-5-in-1.html) outdoor sensor transfers all measured values for wind speed, wind direction, humidity, temperature and precipitation rate to the base station using radio signals and a proprietary protocol.
+The [BRESSER weather center 5-in-1](http://www.bresser.de/en/Weather-Time/BRESSER-Weather-Center-5-in-1.html) (model 7002510) outdoor sensor transfers all measured values for wind speed, wind direction, humidity, temperature and precipitation rate to the base station using radio signals and a proprietary protocol.
 
-This library decodes the readings sent by the Bresser sensors. I tested it only with a RTL2838 dongle, using the rtl-sdr software (http://www.rtl-sdr.com/).
+This library decodes the readings sent by the Bresser sensors. I tested it only with a RTL2838 dongle, using the rtl-sdr software ([http://www.rtl-sdr.com/](http://www.rtl-sdr.com/)).
 
 Note that I've not fully reversed yet the data packed sent by the sensor, the work is still ongoing and the library still need to be tested a lot.
 
@@ -20,7 +20,6 @@ With the sampling rate set to 48Khz we have an average of 6 samples per bit.
 Visit the project page on [GitHub](https://github.com/andreafabrizi/BresserWeatherCenter) or get the code with the command:
 ```
 git clone https://github.com/andreafabrizi/BresserWeatherCenter.git
-python test.py
 ```
 
 ## Usage example
