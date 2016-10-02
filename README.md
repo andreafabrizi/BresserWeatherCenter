@@ -21,6 +21,8 @@ Following the packet structure I've reversed so far, not highlighted the parts w
 
 ![Packet structure](https://www.andreafabrizi.it/img/bresser_packet.png)
 
+The checksum is just a XOR of the following data.
+
 ## Get the code
 Visit the project page on [GitHub](https://github.com/andreafabrizi/BresserWeatherCenter) or get the code with the command:
 ```
