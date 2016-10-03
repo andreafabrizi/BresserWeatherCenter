@@ -22,11 +22,6 @@
 # rtl_fm command to use:
 #   rtl_fm -M am -f 868.300M -s 48k -g 49.6 -l 30  | ./test.py
 #
-# Packet structure:
-#
-# 0a 0a 0a 0a 0a 0a 0a 0a 0a 0a 02 0d 0d 04 0e 0a 0b 07 07 0f 0e 0b 0d 0f 0f 09 0e 0f 07 0e 0f 0e 0a 08 0d 0b 0f 0c 0f 0f 01 05 04 08 08 00 01 04 02 00 00 06 01 00 08 01 00 01 05 07 02 04 00 03
-# PP PP PP PP PP PP PP PP PP PP SS SS SS SS                                                                                                          W1 W2 WD       T2 TD TS T1 H1 H2 R2 RD
-
 import sys
 import struct
 import math
@@ -59,7 +54,7 @@ class packet():
 
         self.size = len(self.stream)
 
-        if self.size != 64:
+        if self.size != 66:
             return 1
 
         #Preamble
@@ -72,16 +67,17 @@ class packet():
         if sync != "\x02\x0D\x0D\x04":
             return 3
 
+        #Checksum data
+        for n in range(0,26):
+            if ord(self.stream[14+n:15+n]) ^ 0xf != ord(self.stream[40+n:41+n]):
+                return 4
+        
         #Wind
         wind_digit_1 = ord(self.stream[49:50])
         wind_digit_2 = ord(self.stream[50:51])
         wind_decimal = ord(self.stream[51:52])
 
         self.wind_speed = wind_digit_1 * 10 + wind_digit_2 + (float(wind_decimal)/10)
-
-        #Wind speed range is 0-180Km/h
-        if self.wind_speed < 0 or self.wind_speed > 50:
-            return 3
 
         #Temperature
         temp_digit_2 = ord(self.stream[54:55])
@@ -94,17 +90,11 @@ class packet():
         if temp_sign != 0:
             self.temperature  = 0 - self.temperature
 
-        if self.temperature < -30 or self.temperature  > 50:
-            return 4
-
         #Humidity
         hum_digit_1 = ord(self.stream[58:59])
         hum_digit_2 = ord(self.stream[59:60])
 
         self.humidity = hum_digit_1 * 10 + hum_digit_2
-
-        if self.humidity < 1 or self.humidity > 99:
-            return 5
 
         #Rain. Seems that the first digit of the value is missing, and only the less significant and the decimal digits are sent
         rain_digit_2 = ord(self.stream[60:61])
@@ -240,8 +230,8 @@ class Bresser():
 
         #If the buffer size is < 256 and > 252, probably the original packet
         #ends with 0s which has been stripped, so let's compensate
-        if len(buffer) > 252 and len(buffer) < 256:
-            buffer += "0" * (256 - len(buffer))
+        if len(buffer) > 252 and len(buffer) < 264:
+            buffer += "0" * (264 - len(buffer))
 
         self.process_packet(buffer)
 
