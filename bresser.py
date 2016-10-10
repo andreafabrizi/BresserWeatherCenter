@@ -71,7 +71,7 @@ class packet():
         for n in range(0,26):
             if ord(self.stream[14+n:15+n]) ^ 0xf != ord(self.stream[40+n:41+n]):
                 return 4
-        
+
         #Wind
         wind_digit_1 = ord(self.stream[49:50])
         wind_digit_2 = ord(self.stream[50:51])
@@ -124,7 +124,7 @@ class packet():
 
         try:
             f = open(dest, "a")
-            f.write("%s | %s | %s | %d%% %.1fC %.1fm/s %.1fmm\n" % (time.strftime("%Y-%m-%d %H:%M:%S"), self.raw_data, hexdata, self.humidity, self.temperature,  self.getWindSpeed(), self.getRain()))
+            f.write("%s | %s | %d%% %.1fC %.1fm/s %.1fmm\n" % (time.strftime("%Y-%m-%d %H:%M:%S"), hexdata, self.humidity, self.temperature,  self.getWindSpeed(), self.getRain()))
             f.close()
         except Exception as e:
             print "Error storing sample to file: %s" % e
