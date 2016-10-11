@@ -82,7 +82,7 @@ class packet():
         #Temperature
         temp_digit_2 = ord(self.stream[54:55])
         temp_decimal = ord(self.stream[55:56])
-        temp_sign = ord(self.stream[56:57])
+        temp_sign = ord(self.stream[65:66])
         temp_digit_1 = ord(self.stream[57:58])
 
         self.temperature  = temp_digit_1 * 10 + temp_digit_2 + (float(temp_decimal)/10)
