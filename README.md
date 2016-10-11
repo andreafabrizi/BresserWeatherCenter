@@ -33,23 +33,23 @@ git clone https://github.com/andreafabrizi/BresserWeatherCenter.git
 ```
 from bresser import *
 
-b = Bresser(printdata=True)
+#The noise value should be manually adjusted for the moment
+b = Bresser(printdata=True, noise = 500)
 b.process_radio_data()
 ```
 
 ```
-rtl_fm -M am -f 868.300M -s 48k -g 49.6 -l 30  | ./test.py
+rtl_fm -M am -f 868.300M -s 48k -g 49.6 | ./test.py
 
-2016-09-09 19:59:07:  Humidity: 50%  Temperature: 20.7°  Wind: 2.2 Km/h  Rain: 4.0 mm
-2016-09-09 19:59:17:  Humidity: 50%  Temperature: 20.7°  Wind: 2.2 Km/h  Rain: 4.0 mm
-2016-09-09 19:59:30:  Humidity: 49%  Temperature: 20.6°  Wind: 2.2 Km/h  Rain: 4.0 mm
+2016-09-09 19:59:07:  Humidity: 50%  Temperature: 20.7°  Wind: 2.2 Km/h NNE  Rain: 4.0 mm
+2016-09-09 19:59:17:  Humidity: 50%  Temperature: 20.7°  Wind: 2.2 Km/h NNE  Rain: 4.0 mm
+2016-09-09 19:59:30:  Humidity: 49%  Temperature: 20.6°  Wind: 2.2 Km/h NNE  Rain: 4.0 mm
 ```
 
-Note that the gain and the squelch level most probably needs to be adjusted, depending on your device and antenna.
+Note that the gain most probably needs to be adjusted, depending on your device and antenna.
 
 ## Antenna
 As antenna I used a self made metal wire 8.64 cm long (300000/868000/4) and it works quite well.
 
 ## To do
-* Decode wind direction data
 * Verify if what I identified as sync is actually the sync or the device ID
