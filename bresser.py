@@ -155,12 +155,12 @@ class packet():
 
 class Bresser():
 
-    def __init__(self, dumpfile = None, debug = False, printdata = False):
+    def __init__(self, dumpfile = None, debug = False, printdata = False, noise = 0):
         self.dumpfile = dumpfile
         self.printdata = printdata
         self.callback_func = None
         self.debug = debug
-        pass
+        self.noise = noise
 
     def set_callback(self, callback_func):
         self.callback_func = callback_func
@@ -197,12 +197,9 @@ class Bresser():
 
         buffer = ""
 
-        #Calculatig the average value
-        average = max(samples) / 2
-
         #Normalising the samples
         for index, sample in enumerate(samples):
-            if samples[index] >= average:
+            if samples[index] > 0:
                 #print "%d -> 1" % samples[index]
                 samples[index] = 1
             else:
@@ -247,13 +244,17 @@ class Bresser():
 
             #Reading silence
             sample = self.get_sample_stdin()
-            while (sample < 10):
+            while (sample <= self.noise):
                 sample = self.get_sample_stdin()
 
             #Reading all data until there's silence for at least 300 samples (300 is good for a 48Khz sampling)
             while True:
                 samples.append(sample)
                 sample = self.get_sample_stdin()
+
+                if sample <= self.noise:
+                    sample = 0
+
                 if sample == 0 and prev_sample == 0 and count_prev_samples > 300:
                     break
 
