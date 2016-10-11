@@ -20,7 +20,7 @@
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #
 # rtl_fm command to use:
-#   rtl_fm -M am -f 868.300M -s 48k -g 49.6 -l 30  | ./test.py
+#   rtl_fm -M am -f 868.300M -s 48k -g 49.6 | ./test.py
 #
 import sys
 import struct
