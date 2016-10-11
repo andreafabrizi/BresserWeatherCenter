@@ -41,6 +41,7 @@ class packet():
         self.temperature = 0.0
         self.wind_speed = 0.0
         self.rain_month = 0.0
+        self.wind_direction = 0
         self.debug = debug
 
     def parse(self):
@@ -72,6 +73,11 @@ class packet():
             if ord(self.stream[14+n:15+n]) ^ 0xf != ord(self.stream[40+n:41+n]):
                 return 4
 
+        #Wind direction
+        self.wind_direction = ord(self.stream[48:49])
+        if self.wind_direction < 0 or self.wind_direction > 0xF:
+            return 5
+        
         #Wind
         wind_digit_1 = ord(self.stream[49:50])
         wind_digit_2 = ord(self.stream[50:51])
@@ -108,7 +114,7 @@ class packet():
         print time.strftime("%Y-%m-%d %H:%M:%S: "),
         print "Humidity: %d%% " % self.humidity,
         print "Temperature: %.1f" % self.temperature + u"\u00b0C ",
-        print "Wind: %.1f m/s " % self.getWindSpeed(),
+        print "Wind: %.1f m/s %s" % (self.getWindSpeed(), self.getWindDirection()),
         print "Rain: %.1f mm" % self.getRain(),
         print ""
 
@@ -124,7 +130,7 @@ class packet():
 
         try:
             f = open(dest, "a")
-            f.write("%s | %s | %d%% %.1fC %.1fm/s %.1fmm\n" % (time.strftime("%Y-%m-%d %H:%M:%S"), hexdata, self.humidity, self.temperature,  self.getWindSpeed(), self.getRain()))
+            f.write("%s | %s | %d%% %.1fC %.1fm/s %s %.1fmm\n" % (time.strftime("%Y-%m-%d %H:%M:%S"), hexdata, self.humidity, self.temperature,  self.getWindSpeed(), self.getWindDirection(),self.getRain()))
             f.close()
         except Exception as e:
             print "Error storing sample to file: %s" % e
@@ -150,6 +156,13 @@ class packet():
     def getIntWindSpeedKm(self):
         return int(self.getIntWindSpeed() * 10)
 
+    def getWindDirection(self):
+        directions = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"]
+        return directions[self.wind_direction]
+
+    def getIntWindDirection(self):
+        return self.wind_direction
+                
     def getRain(self):
         return self.rain_month
 
