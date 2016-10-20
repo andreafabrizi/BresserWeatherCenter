@@ -77,7 +77,7 @@ class packet():
         self.wind_direction = ord(self.stream[48:49])
         if self.wind_direction < 0 or self.wind_direction > 0xF:
             return 5
-        
+
         #Wind
         wind_digit_1 = ord(self.stream[49:50])
         wind_digit_2 = ord(self.stream[50:51])
@@ -142,7 +142,7 @@ class packet():
         return self.temperature
 
     def getIntTemperature(self):
-        return int(self.temperature * 10)
+        return int(round(self.temperature * 10))
 
     def getWindSpeed(self):
         return self.wind_speed
@@ -151,10 +151,10 @@ class packet():
         return self.wind_speed * 3.6
 
     def getIntWindSpeed(self):
-        return int(self.wind_speed * 10)
+        return int(round(self.wind_speed * 10))
 
     def getIntWindSpeedKm(self):
-        return int(self.getIntWindSpeed() * 10)
+        return int(round(self.getIntWindSpeed() * 10))
 
     def getWindDirection(self):
         directions = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"]
@@ -162,9 +162,12 @@ class packet():
 
     def getIntWindDirection(self):
         return self.wind_direction
-                
+
     def getRain(self):
         return self.rain_month
+
+    def getIntRain(self):
+        return int(round(self.rain_month * 10))
 
 class Bresser():
 
