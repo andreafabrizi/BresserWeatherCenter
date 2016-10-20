@@ -40,7 +40,7 @@ class packet():
         self.humidity = 0
         self.temperature = 0.0
         self.wind_speed = 0.0
-        self.rain_month = 0.0
+        self.rain = 0.0
         self.wind_direction = 0
         self.debug = debug
 
@@ -102,11 +102,12 @@ class packet():
 
         self.humidity = hum_digit_1 * 10 + hum_digit_2
 
-        #Rain. Seems that the first digit of the value is missing, and only the less significant and the decimal digits are sent
-        rain_digit_2 = ord(self.stream[60:61])
+        #Rain
+        rain_digit_1 = ord(self.stream[60:61])
         rain_decimal = ord(self.stream[61:62])
+        rain_counter = ord(self.stream[63:64])
 
-        self.rain_month = rain_digit_2 + (float(rain_decimal)/10)
+        self.rain = rain_counter * 10 + rain_digit_1 + (float(rain_decimal)/10)
 
         return 0
 
@@ -164,10 +165,10 @@ class packet():
         return self.wind_direction
 
     def getRain(self):
-        return self.rain_month
+        return self.rain
 
     def getIntRain(self):
-        return int(round(self.rain_month * 10))
+        return int(round(self.rain * 10))
 
 class Bresser():
 
