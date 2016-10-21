@@ -43,6 +43,7 @@ class packet():
         self.rain = 0.0
         self.wind_direction = 0
         self.debug = debug
+        self.station_id = 0
 
     def parse(self):
 
@@ -63,10 +64,8 @@ class packet():
         if preamble != "\x0A\x0A\x0A\x0A\x0A\x0A\x0A\x0A\x0A\x0A":
             return 2
 
-        #Not sure if it's the sync or the ID of my station
-        sync = self.stream[10:14]
-        if sync != "\x02\x0D\x0D\x04":
-            return 3
+        #Station ID
+        self.station_id = 1000 * ord(self.stream[10:11]) + 100 * ord(self.stream[11:12]) + 10 * ord(self.stream[12:13]) + ord(self.stream[13:14])
 
         #Checksum data
         for n in range(0,26):
@@ -124,6 +123,7 @@ class packet():
         print "Packet size: %d" % self.size
         print "Hex data: ",
         print " ".join("{:02x}".format(ord(c)) for c in self.stream)
+        print "Station ID: %d" % self.getStationID()
 
     def store(self, dest):
 
@@ -170,14 +170,18 @@ class packet():
     def getIntRain(self):
         return int(round(self.rain * 10))
 
+    def getStationID(self):
+        return self.station_id
+
 class Bresser():
 
-    def __init__(self, dumpfile = None, debug = False, printdata = False, noise = 0):
+    def __init__(self, dumpfile = None, debug = False, printdata = False, noise = 0, station_id = 0):
         self.dumpfile = dumpfile
         self.printdata = printdata
         self.callback_func = None
         self.debug = debug
         self.noise = noise
+        self.station_id = station_id
 
     def set_callback(self, callback_func):
         self.callback_func = callback_func
@@ -189,6 +193,12 @@ class Bresser():
         if p.parse() == 0:
             if self.debug:
                 p.packetInfo()
+
+            if self.station_id > 0:
+                if self.station_id != p.getStationID():
+                    if self.debug:
+                        print "Not matching station ID (%d)" % p.getStationID()
+                    return
 
             if self.printdata:
                 p.printReadings()
