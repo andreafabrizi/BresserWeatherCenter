@@ -65,7 +65,7 @@ class packet():
             return 2
 
         #Station ID
-        self.station_id = 1000 * ord(self.stream[10:11]) + 100 * ord(self.stream[11:12]) + 10 * ord(self.stream[12:13]) + ord(self.stream[13:14])
+        self.station_id = struct.unpack(">i", self.stream[10:14])[0]
 
         #Checksum data
         for n in range(0,26):
@@ -123,7 +123,7 @@ class packet():
         print "Packet size: %d" % self.size
         print "Hex data: ",
         print " ".join("{:02x}".format(ord(c)) for c in self.stream)
-        print "Station ID: %d" % self.getStationID()
+        print "Station ID: 0x%x" % self.getStationID()
 
     def store(self, dest):
 
@@ -197,7 +197,7 @@ class Bresser():
             if self.station_id > 0:
                 if self.station_id != p.getStationID():
                     if self.debug:
-                        print "Not matching station ID (%d)" % p.getStationID()
+                        print "Not matching station ID (0x%x)" % p.getStationID()
                     return
 
             if self.printdata:
