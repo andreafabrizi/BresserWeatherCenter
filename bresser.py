@@ -103,11 +103,11 @@ class packet():
         self.humidity = hum_digit_1 * 10 + hum_digit_2
 
         #Rain
-        rain_digit_1 = ord(self.stream[60:61])
+        rain_digit_2 = ord(self.stream[60:61])
         rain_decimal = ord(self.stream[61:62])
-        rain_counter = ord(self.stream[63:64])
+        rain_digit_1 = ord(self.stream[63:64])
 
-        self.rain = rain_counter * 10 + rain_digit_1 + (float(rain_decimal)/10)
+        self.rain = rain_digit_1 * 10 + rain_digit_2 + (float(rain_decimal)/10)
 
         return 0
 
