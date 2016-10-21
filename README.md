@@ -34,7 +34,7 @@ git clone https://github.com/andreafabrizi/BresserWeatherCenter.git
 from bresser import *
 
 #The noise value should be manually adjusted for the moment
-b = Bresser(printdata=True, noise = 500)
+b = Bresser(printdata=True, noise = 700)
 b.process_radio_data()
 ```
 
@@ -46,10 +46,11 @@ rtl_fm -M am -f 868.300M -s 48k -g 49.6 | ./test.py
 2016-09-09 19:59:30:  Humidity: 49%  Temperature: 20.6°  Wind: 2.2 Km/h NNE  Rain: 4.0 mm
 ```
 
-Note that the gain most probably needs to be adjusted, depending on your device and antenna.
+Note that most probably the gain and the frequency needs to be adjusted, depending on your device and antenna.
 
 ## Antenna
 As antenna I used a self made metal wire 8.64 cm long (300000/868000/4) and it works quite well.
 
 ## To do
-* Verify if what I identified as sync is actually the sync or the device ID
+* Remove dependency from rtl_fm using pyrtlsdr
+* Implement an automatic noise detection
