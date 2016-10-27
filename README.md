@@ -29,7 +29,7 @@ Visit the project page on [GitHub](https://github.com/andreafabrizi/BresserWeath
 git clone https://github.com/andreafabrizi/BresserWeatherCenter.git
 ```
 
-## Usage example
+## Simple usage
 ```
 from bresser import *
 
@@ -39,13 +39,40 @@ b.process_radio_data()
 ```
 
 ```
-rtl_fm -M am -f 868.300M -s 48k -g 49.6 | ./test.py
+rtl_fm -M am -f 868.300M -s 48k -g 49.6 | ./example.py
 
 2016-09-09 19:59:07:  Humidity: 50%  Temperature: 20.7°  Wind: 2.2 Km/h NNE  Rain: 4.0 mm
 2016-09-09 19:59:17:  Humidity: 50%  Temperature: 20.7°  Wind: 2.2 Km/h NNE  Rain: 4.0 mm
 2016-09-09 19:59:30:  Humidity: 49%  Temperature: 20.6°  Wind: 2.2 Km/h NNE  Rain: 4.0 mm
 ```
 
+## Advanced usage
+```
+from bresser import *
+
+def process_packet(p):
+                        
+    print "Humidity: %d%% " % p.getHumidity(),
+    print "Temperature: %.1f" % p.getTemperature() + u"\u00b0 ",
+    print "Wind: %.1f m/s %s" % (p.getWindSpeed(), p.getWindDirection()),
+    print "Rain: %.1f mm" % p.getRain(),
+    print ""
+ 
+if __name__ == "__main__":
+
+    #Noise neede to be adjusted manually
+    b = Bresser(noise = 700)
+    b.set_callback(process_packet)
+    b.process_radio_data()
+```
+
+```
+rtl_fm -M am -f 868.300M -s 48k -g 49.6 | ./example.py
+
+Humidity: 91%  Temperature: 6.4°  Wind: 0.0 m/s E Rain: 78.8 mm
+Humidity: 91%  Temperature: 6.4°  Wind: 0.0 m/s E Rain: 78.8 mm
+Humidity: 91%  Temperature: 6.5°  Wind: 0.0 m/s E Rain: 78.8 mm
+```
 Note that most probably the gain and the frequency needs to be adjusted, depending on your device and antenna.
 
 ## Antenna
